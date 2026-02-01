@@ -20,8 +20,8 @@
     <img src="logo-cfdt.png" width="140" alt="Logo CFDT"><br><br>
     <h1>Calculateur de barème CFDT</h1>
 
-    <label>Catégorie :</label>
-    <select id="categorie">
+    <label>Grade :</label>
+    <select id="grade">
       <option value="">Choisir…</option>
       <option value="normale">Classe normale</option>
       <option value="horsclasse">Hors classe</option>
@@ -58,12 +58,12 @@
 
   <script>
     function calculer() {
-      const categorie = document.getElementById('categorie').value;
+      const grade = document.getElementById('grade').value;
       const echelon = parseInt(document.getElementById('echelon').value);
       const anciennete = parseInt(document.getElementById('anciennete').value);
       const consent = document.getElementById('consentement').checked;
 
-      if (!categorie || !echelon || !anciennete || !consent) {
+      if (!grade || !echelon || !anciennete || !consent) {
         alert("Merci de remplir tous les champs et d'accepter la RGPD");
         return;
       }
@@ -77,11 +77,12 @@
       // Barème Classe exceptionnelle
       const exce = [0, 65, 70, 75, 80, 90]; // échelon 1 à 5
 
-      if (categorie === "normale") pointsEchelon = normale[echelon] || 0;
-      else if (categorie === "horsclasse") pointsEchelon = hors[echelon] || 0;
-      else if (categorie === "exceptionnelle") pointsEchelon = exce[echelon] || 0;
+      if (grade === "normale") pointsEchelon = normale[echelon] || 0;
+      else if (grade === "horsclasse") pointsEchelon = hors[echelon] || 0;
+      else if (grade === "exceptionnelle") pointsEchelon = exce[echelon] || 0;
 
-      let pointsAnciennete = anciennete; // 1 point par année, tu peux changer la formule
+      // Calcul de l'ancienneté : 2 points forfaitaires + 2 points par année
+      const pointsAnciennete = 2 + (anciennete * 2);
 
       const total = pointsEchelon + pointsAnciennete;
 
