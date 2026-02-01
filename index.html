@@ -5,22 +5,29 @@
   <title>Calculateur de barème CFDT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial; background:#f5f5f5; text-align:center; margin:0; padding:0; }
+    body { font-family: Arial; background:#f5f5f5; margin:0; padding:0; }
     .container { max-width:600px; margin:40px auto; padding:30px; background:white; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); text-align:left; }
     h1 { color:#ff6600; margin-bottom:5px; text-align:center; }
     p.subtitle { font-size:14px; color:#555; margin-top:0; margin-bottom:20px; text-align:center; }
     label { display:block; margin-top:15px; font-weight:bold; }
     select,input[type=number] { width:100%; padding:10px; margin-top:5px; border-radius:6px; font-size:14px; }
-    input[type=checkbox] { margin-right:6px; }
+    .radio-group { margin-top:5px; }
+    .radio-group label { font-weight: normal; margin-right:15px; }
     button { width:100%; padding:12px; margin-top:20px; border-radius:6px; font-size:16px; background:#ff6600; color:white; border:none; cursor:pointer; }
     button:hover { background:#e25500; }
     .rgpd { font-size:12px; margin-top:20px; color:#555; }
     #result { margin-top:20px; font-weight:bold; color:#ff6600; font-size:18px; text-align:center; }
+    .logo { text-align:center; margin-bottom:20px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="https://sgen-cfdt.fr/contenu/uploads/sites/14/2026/02/LOGO-CAR-OR.png" width="180" alt="Logo CFDT Académie de Bordeaux"><br><br>
+
+    <!-- Logo centré -->
+    <div class="logo">
+      <img src="https://sgen-cfdt.fr/contenu/uploads/sites/14/2026/02/LOGO-CAR-OR.png" width="180" alt="Logo CFDT Académie de Bordeaux">
+    </div>
+
     <h1>Calculateur de barème CFDT</h1>
     <p class="subtitle">Cet outil a vocation à calculer le barème pour le mouvement intra pour le premier degré.</p>
 
@@ -70,24 +77,32 @@
     <input type="number" id="enfants" min="0" max="10" placeholder="Ex : 2">
 
     <!-- Carte scolaire -->
-    <label>
-      <input type="checkbox" id="carteScolaire"> Êtes-vous en mesure de carte scolaire ?
-    </label>
+    <label>Êtes-vous en mesure de carte scolaire ?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="carteScolaire" value="oui"> Oui</label>
+      <label><input type="radio" name="carteScolaire" value="non"> Non</label>
+    </div>
 
     <!-- RQTH -->
-    <label>
-      <input type="checkbox" id="rqth"> Avez-vous une mesure RQTH ?
-    </label>
+    <label>Avez-vous une mesure RQTH ?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="rqth" value="oui"> Oui</label>
+      <label><input type="radio" name="rqth" value="non"> Non</label>
+    </div>
 
     <!-- Bonification RQTH -->
-    <label>
-      <input type="checkbox" id="bonifRqth"> Avez-vous une bonification / majoration de barème RQTH ?
-    </label>
+    <label>Avez-vous une bonification ou majoration de barème RQTH ?</label>
+    <div class="radio-group">
+      <label><input type="radio" name="bonifRqth" value="oui"> Oui</label>
+      <label><input type="radio" name="bonifRqth" value="non"> Non</label>
+    </div>
 
     <!-- Parent isolé -->
-    <label>
-      <input type="checkbox" id="parentIsole"> Êtes-vous parent isolé ? (Seul détenteur de l'autorité parentale)
-    </label>
+    <label>Êtes-vous parent isolé ? (Seul détenteur de l'autorité parentale)</label>
+    <div class="radio-group">
+      <label><input type="radio" name="parentIsole" value="oui"> Oui</label>
+      <label><input type="radio" name="parentIsole" value="non"> Non</label>
+    </div>
 
     <!-- REP -->
     <label>Nombre d'années dans la même école en REP / Zone rurale isolée / Politique de la ville :</label>
@@ -109,18 +124,18 @@
     function calculer() {
       const departement = document.getElementById('departement').value;
       const grade = document.getElementById('grade').value;
-      const echelon = parseInt(document.getElementById('echelon').value);
-      const anciennete = parseInt(document.getElementById('anciennete').value);
+      const echelon = parseInt(document.getElementById('echelon').value) || 0;
+      const anciennete = parseInt(document.getElementById('anciennete').value) || 0;
       const enfants = parseInt(document.getElementById('enfants').value) || 0;
-      const carte = document.getElementById('carteScolaire').checked;
-      const rqth = document.getElementById('rqth').checked;
-      const bonifRqth = document.getElementById('bonifRqth').checked;
-      const parentIsole = document.getElementById('parentIsole').checked;
+      const carte = document.querySelector('input[name="carteScolaire"]:checked')?.value || "non";
+      const rqth = document.querySelector('input[name="rqth"]:checked')?.value || "non";
+      const bonifRqth = document.querySelector('input[name="bonifRqth"]:checked')?.value || "non";
+      const parentIsole = document.querySelector('input[name="parentIsole"]:checked')?.value || "non";
       const rep = parseInt(document.getElementById('rep').value) || 0;
       const consent = document.getElementById('consentement').checked;
 
-      if (!departement || !grade || !echelon || !anciennete || !consent) {
-        alert("Merci de remplir tous les champs obligatoires et d'accepter la RGPD");
+      if (!departement || !grade) {
+        alert("Merci de remplir les champs Département et Grade obligatoires.");
         return;
       }
 
@@ -142,36 +157,28 @@
       points += Math.min(enfants, 4);
 
       // Carte scolaire
-      if (carte) points += 250;
+      if (carte === "oui") points += 250;
 
       // RQTH
-      if (rqth) points += 50;
+      if (rqth === "oui") points += 50;
 
       // Bonification RQTH
-      if (bonifRqth) {
+      if (bonifRqth === "oui") {
         points += 250;
-        if (rqth) points -= 50; // enlever 50 pts de la RQTH
+        if (rqth === "oui") points -= 50; // enlever 50 pts de RQTH
       }
 
       // Parent isolé
-      if (parentIsole) points += 4;
+      if (parentIsole === "oui") points += 4;
 
       // REP selon département et années
       if (rep >= 3) {
-        if (departement === "Gironde") {
-          if (rep >=5) points += 60;
-          else points += 30;
-        } else if (departement === "Pyrénées-Atlantiques") {
-          if (rep >=5) points += 50;
-          else points += 20;
-        } else if (departement === "Landes") {
-          if (rep >=5) points += 50;
-          else points += 20;
-        } else {
-          points += 0; // Dordogne, Lot-et-Garonne pas de points supplémentaires
-        }
+        if (departement === "Gironde") points += (rep >=5 ? 60 : 30);
+        else if (departement === "Pyrénées-Atlantiques") points += (rep >=5 ? 50 : 20);
+        else if (departement === "Landes") points += (rep >=5 ? 50 : 20);
       }
 
+      // Affichage résultat
       document.getElementById('result').innerHTML = `Votre barème total est : ${points} points`;
     }
   </script>
