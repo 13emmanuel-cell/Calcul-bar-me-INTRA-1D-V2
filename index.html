@@ -8,7 +8,7 @@
   body { font-family: Arial; background:#f5f5f5; margin:0; padding:0; }
   .container { max-width:720px; margin:40px auto; padding:30px; background:white; border-radius:12px; box-shadow:0 5px 20px rgba(0,0,0,0.1); }
   h1 { color:#ff6600; text-align:center; margin-bottom:5px; }
-  p.subtitle { font-size:14px; color:#555; text-align:center; margin-top:0; margin-bottom:20px; }
+  p.subtitle { font-size:14px; color:#555; text-align:center; margin-top:0; margin-bottom:20px; line-height:1.5; }
   .logo { text-align:center; margin-bottom:20px; }
   h2.section-title { background:#ff6600; color:white; padding:8px 12px; border-radius:6px; margin-top:25px; }
   label { display:block; margin-top:12px; font-weight:bold; }
@@ -36,7 +36,10 @@
   </div>
 
   <h1>Calculateur de barème CFDT</h1>
-  <p class="subtitle">Cet outil a vocation à calculer le barème pour le mouvement intra pour le premier degré.</p>
+  <p class="subtitle">
+    Calculer votre barème pour le mouvement INTRA dans le premier degré dans l'académie de Bordeaux.<br><br>
+    La Team CFDT Aquitaine t'accompagne pour une stratégie pertinente et des vœux cohérents.
+  </p>
 
   <!-- Rubrique : Département & Grade -->
   <h2 class="section-title">1. Département & Grade</h2>
@@ -158,7 +161,6 @@ function calculer() {
   const bonifRqth = document.querySelector('input[name="bonifRqth"]:checked')?.value || "non";
   const parentIsole = document.querySelector('input[name="parentIsole"]:checked')?.value || "non";
   const rep = parseInt(document.getElementById('rep').value) || 0;
-  const consent = document.getElementById('consentement').checked;
 
   if (!departement || !grade) { alert("Merci de remplir les champs Département et Grade obligatoires."); return; }
 
