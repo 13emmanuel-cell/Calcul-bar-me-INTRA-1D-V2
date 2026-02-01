@@ -19,6 +19,15 @@
   <div class="container">
     <img src="logo-cfdt.png" width="140" alt="Logo CFDT"><br><br>
     <h1>Calculateur de barème CFDT</h1>
+
+    <label>Catégorie :</label>
+    <select id="categorie">
+      <option value="">Choisir…</option>
+      <option value="normale">Classe normale</option>
+      <option value="horsclasse">Hors classe</option>
+      <option value="exceptionnelle">Classe exceptionnelle</option>
+    </select>
+
     <label>Échelon :</label>
     <select id="echelon">
       <option value="">Choisir…</option>
@@ -34,22 +43,51 @@
       <option value="10">Échelon 10</option>
       <option value="11">Échelon 11</option>
     </select>
+
     <label>Ancienneté (en années) :</label>
     <input type="number" id="anciennete" min="0" max="50" placeholder="Ex : 12">
-    <label class="rgpd"><input type="checkbox" id="consentement"> J’accepte que mes données soient utilisées uniquement dans le cadre de l’activité syndicale CFDT</label>
+
+    <label class="rgpd">
+      <input type="checkbox" id="consentement"> J’accepte que mes données soient utilisées uniquement dans le cadre de l’activité syndicale CFDT
+    </label>
+
     <button onclick="calculer()">Calculer mon barème</button>
+
     <div id="result"></div>
   </div>
+
   <script>
     function calculer() {
+      const categorie = document.getElementById('categorie').value;
       const echelon = parseInt(document.getElementById('echelon').value);
       const anciennete = parseInt(document.getElementById('anciennete').value);
       const consent = document.getElementById('consentement').checked;
-      if (!echelon || !anciennete || !consent) { alert("Merci de remplir tous les champs et d'accepter la RGPD"); return; }
-      let pointsEchelon = (echelon === 1) ? 5 : (echelon === 2) ? 15 : 15 + (echelon-2)*5;
-      let pointsAnciennete = anciennete; // ici 1 point par année, tu peux changer
+
+      if (!categorie || !echelon || !anciennete || !consent) {
+        alert("Merci de remplir tous les champs et d'accepter la RGPD");
+        return;
+      }
+
+      let pointsEchelon = 0;
+
+      // Barème Classe normale
+      const normale = [0, 5, 15, 20, 25, 30, 40, 50, 55, 60, 65, 70]; // index = échelon
+      // Barème Hors classe
+      const hors = [0, 55, 60, 65, 70, 75, 80, 85]; // échelon 1 à 7
+      // Barème Classe exceptionnelle
+      const exce = [0, 65, 70, 75, 80, 90]; // échelon 1 à 5
+
+      if (categorie === "normale") pointsEchelon = normale[echelon] || 0;
+      else if (categorie === "horsclasse") pointsEchelon = hors[echelon] || 0;
+      else if (categorie === "exceptionnelle") pointsEchelon = exce[echelon] || 0;
+
+      let pointsAnciennete = anciennete; // 1 point par année, tu peux changer la formule
+
       const total = pointsEchelon + pointsAnciennete;
-      document.getElementById('result').innerHTML = `Votre barème total est : ${total} points<br>(Échelon : ${pointsEchelon}, Ancienneté : ${pointsAnciennete})`;
+
+      document.getElementById('result').innerHTML =
+        `Votre barème total est : ${total} points<br>
+         (Échelon : ${pointsEchelon}, Ancienneté : ${pointsAnciennete})`;
     }
   </script>
 </body>
