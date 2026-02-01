@@ -7,7 +7,8 @@
   <style>
     body { font-family: Arial; background:#f5f5f5; text-align:center; margin:0; padding:0; }
     .container { max-width:480px; margin:40px auto; padding:30px; background:white; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
-    h1 { color:#ff6600; }
+    h1 { color:#ff6600; margin-bottom:5px; }
+    p.subtitle { font-size:14px; color:#555; margin-top:0; margin-bottom:20px; }
     select,input,button { width:100%; padding:12px; margin-top:15px; border-radius:6px; font-size:16px; }
     button { background:#ff6600; color:white; border:none; cursor:pointer; }
     button:hover { background:#e25500; }
@@ -17,9 +18,14 @@
 </head>
 <body>
   <div class="container">
+    <!-- Logo CFDT -->
     <img src="logo-cfdt.png" width="140" alt="Logo CFDT"><br><br>
-    <h1>Calculateur de barème CFDT</h1>
 
+    <!-- Titre et texte explicatif -->
+    <h1>Calculateur de barème CFDT</h1>
+    <p class="subtitle">Cet outil a vocation à calculer le barème pour le mouvement intra pour le premier degré.</p>
+
+    <!-- Grade -->
     <label>Grade :</label>
     <select id="grade">
       <option value="">Choisir…</option>
@@ -28,6 +34,7 @@
       <option value="exceptionnelle">Classe exceptionnelle</option>
     </select>
 
+    <!-- Échelon -->
     <label>Échelon :</label>
     <select id="echelon">
       <option value="">Choisir…</option>
@@ -44,15 +51,19 @@
       <option value="11">Échelon 11</option>
     </select>
 
+    <!-- Ancienneté -->
     <label>Ancienneté (en années) :</label>
     <input type="number" id="anciennete" min="0" max="50" placeholder="Ex : 12">
 
+    <!-- RGPD -->
     <label class="rgpd">
       <input type="checkbox" id="consentement"> J’accepte que mes données soient utilisées uniquement dans le cadre de l’activité syndicale CFDT
     </label>
 
+    <!-- Bouton -->
     <button onclick="calculer()">Calculer mon barème</button>
 
+    <!-- Résultat -->
     <div id="result"></div>
   </div>
 
@@ -71,17 +82,17 @@
       let pointsEchelon = 0;
 
       // Barème Classe normale
-      const normale = [0, 5, 15, 20, 25, 30, 40, 50, 55, 60, 65, 70]; // index = échelon
+      const normale = [0, 5, 15, 20, 25, 30, 40, 50, 55, 60, 65, 70];
       // Barème Hors classe
-      const hors = [0, 55, 60, 65, 70, 75, 80, 85]; // échelon 1 à 7
+      const hors = [0, 55, 60, 65, 70, 75, 80, 85];
       // Barème Classe exceptionnelle
-      const exce = [0, 65, 70, 75, 80, 90]; // échelon 1 à 5
+      const exce = [0, 65, 70, 75, 80, 90];
 
       if (grade === "normale") pointsEchelon = normale[echelon] || 0;
       else if (grade === "horsclasse") pointsEchelon = hors[echelon] || 0;
       else if (grade === "exceptionnelle") pointsEchelon = exce[echelon] || 0;
 
-      // Calcul de l'ancienneté : 2 points forfaitaires + 2 points par année
+      // Ancienneté : 2 points forfaitaires + 2 points par année
       const pointsAnciennete = 2 + (anciennete * 2);
 
       const total = pointsEchelon + pointsAnciennete;
