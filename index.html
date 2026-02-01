@@ -6,18 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: Arial; background:#f5f5f5; margin:0; padding:0; }
-    .container { max-width:600px; margin:40px auto; padding:30px; background:white; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); text-align:left; }
+    .container { max-width:700px; margin:40px auto; padding:30px; background:white; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); text-align:left; }
     h1 { color:#ff6600; margin-bottom:5px; text-align:center; }
     p.subtitle { font-size:14px; color:#555; margin-top:0; margin-bottom:20px; text-align:center; }
     label { display:block; margin-top:15px; font-weight:bold; }
-    select,input[type=number] { width:100%; padding:10px; margin-top:5px; border-radius:6px; font-size:14px; }
+    select,input[type=number] { width:100%; padding:10px; margin-top:5px; border-radius:6px; font-size:14px; border:1px solid #ccc; }
     .radio-group { margin-top:5px; }
     .radio-group label { font-weight: normal; margin-right:15px; }
     button { width:100%; padding:12px; margin-top:20px; border-radius:6px; font-size:16px; background:#ff6600; color:white; border:none; cursor:pointer; }
     button:hover { background:#e25500; }
     .rgpd { font-size:12px; margin-top:20px; color:#555; }
-    #result { margin-top:20px; font-weight:bold; color:#ff6600; font-size:18px; text-align:center; }
+    #result { margin-top:20px; font-weight:bold; font-size:16px; background:#ff6600; color:white; padding:15px; border-radius:8px; }
     .logo { text-align:center; margin-bottom:20px; }
+    .detail { font-weight: normal; color: #fff; margin-top:10px; font-size:14px; }
+    .section { background:#ff6600; color:white; padding:10px; border-radius:8px; margin-top:20px; }
+    a { color:white; text-decoration: underline; }
+    .footer { margin-top:30px; font-size:14px; color:#333; text-align:center; }
   </style>
 </head>
 <body>
@@ -73,7 +77,7 @@
     <input type="number" id="anciennete" min="0" max="50" placeholder="Ex : 12">
 
     <!-- Nombre d'enfants -->
-    <label>Nombre d'enfants de moins de 18 ans :</label>
+    <label>Nombre d'enfants de moins de 18 ans au 1er septembre 2026 (aucune limite pour les enfants en situation de handicap) :</label>
     <input type="number" id="enfants" min="0" max="10" placeholder="Ex : 2">
 
     <!-- Carte scolaire -->
@@ -118,6 +122,14 @@
 
     <!-- Résultat -->
     <div id="result"></div>
+
+    <!-- Dossier INTRA -->
+    <div class="section">
+      <h2>Le dossier INTRA</h2>
+      <p>Plus d’informations et documents : <a href="https://aquitaine.sgen-cfdt.fr/dossier/le-mouvement-choisir-son-poste-a-la-rentree/" target="_blank">Choisir son poste à la rentrée</a></p>
+      <p>Pour toute question, contactez-nous au : <strong>06 73 31 45 51</strong></p>
+    </div>
+
   </div>
 
   <script>
@@ -140,46 +152,54 @@
       }
 
       let points = 0;
+      let detail = "";
 
-      // Points échelon
-      const normale = [0, 5, 15, 20, 25, 30, 40, 50, 55, 60, 65, 70];
-      const hors = [0, 55, 60, 65, 70, 75, 80, 85];
-      const exce = [0, 65, 70, 75, 80, 90];
+      const normale = [0,5,15,20,25,30,40,50,55,60,65,70];
+      const hors = [0,55,60,65,70,75,80,85];
+      const exce = [0,65,70,75,80,90];
 
-      if (grade === "normale") points += normale[echelon] || 0;
-      else if (grade === "horsclasse") points += hors[echelon] || 0;
-      else if (grade === "exceptionnelle") points += exce[echelon] || 0;
+      let pointsEchelon = 0;
+      if (grade === "normale") pointsEchelon = normale[echelon] || 0;
+      else if (grade === "horsclasse") pointsEchelon = hors[echelon] || 0;
+      else if (grade === "exceptionnelle") pointsEchelon = exce[echelon] || 0;
+      points += pointsEchelon;
+      detail += `Échelon (${grade}): ${pointsEchelon} pts<br>`;
 
-      // Ancienneté
-      points += 2 + (anciennete * 2);
+      let pointsAnciennete = 2 + (anciennete*2);
+      points += pointsAnciennete;
+      detail += `Ancienneté (${anciennete} ans): ${pointsAnciennete} pts<br>`;
 
-      // Enfants
-      points += Math.min(enfants, 4);
+      let pointsEnfants = Math.min(enfants,4);
+      points += pointsEnfants;
+      detail += `Nombre d'enfants: ${pointsEnfants} pts<br>`;
 
-      // Carte scolaire
-      if (carte === "oui") points += 250;
+      let pointsCarte = (carte === "oui"?250:0);
+      points += pointsCarte;
+      detail += `Carte scolaire (${carte}): ${pointsCarte} pts<br>`;
 
-      // RQTH
-      if (rqth === "oui") points += 50;
+      let pointsRqth = (rqth==="oui"?50:0);
+      points += pointsRqth;
+      detail += `Mesure RQTH (${rqth}): ${pointsRqth} pts<br>`;
 
-      // Bonification RQTH
-      if (bonifRqth === "oui") {
-        points += 250;
-        if (rqth === "oui") points -= 50; // enlever 50 pts de RQTH
+      let pointsBonif = (bonifRqth==="oui"?250:0);
+      if(bonifRqth==="oui" && rqth==="oui") pointsRqth -= 50;
+      points += pointsBonif - (bonifRqth==="oui" && rqth==="oui"?50:0);
+      detail += `Bonification RQTH (${bonifRqth}): ${pointsBonif} pts${(bonifRqth==="oui" && rqth==="oui"? " (-50 pts RQTH)": "")}<br>`;
+
+      let pointsParent = (parentIsole==="oui"?4:0);
+      points += pointsParent;
+      detail += `Parent isolé (${parentIsole}): ${pointsParent} pts<br>`;
+
+      let pointsRep = 0;
+      if(rep>=3){
+        if(departement==="Gironde") pointsRep=(rep>=5?60:30);
+        else if(departement==="Pyrénées-Atlantiques") pointsRep=(rep>=5?50:20);
+        else if(departement==="Landes") pointsRep=(rep>=5?50:20);
       }
+      points += pointsRep;
+      detail += `Années en REP/zone spécifique: ${pointsRep} pts<br>`;
 
-      // Parent isolé
-      if (parentIsole === "oui") points += 4;
-
-      // REP selon département et années
-      if (rep >= 3) {
-        if (departement === "Gironde") points += (rep >=5 ? 60 : 30);
-        else if (departement === "Pyrénées-Atlantiques") points += (rep >=5 ? 50 : 20);
-        else if (departement === "Landes") points += (rep >=5 ? 50 : 20);
-      }
-
-      // Affichage résultat
-      document.getElementById('result').innerHTML = `Votre barème total est : ${points} points`;
+      document.getElementById('result').innerHTML=`<strong>Total: ${points} pts</strong><div class="detail">${detail}</div>`;
     }
   </script>
 </body>
