@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculateur de barème CFDT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; background:#f5f5f5; text-align:center; margin:0; padding:0; }
+    .container { max-width:480px; margin:40px auto; padding:30px; background:white; border-radius:12px; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
+    h1 { color:#ff6600; }
+    select,input,button { width:100%; padding:12px; margin-top:15px; border-radius:6px; font-size:16px; }
+    button { background:#ff6600; color:white; border:none; cursor:pointer; }
+    button:hover { background:#e25500; }
+    .rgpd { font-size:12px; margin-top:20px; color:#555; text-align:left; }
+    #result { margin-top:20px; font-weight:bold; color:#ff6600; font-size:18px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo-cfdt.png" width="140" alt="Logo CFDT"><br><br>
+    <h1>Calculateur de barème CFDT</h1>
+    <label>Échelon :</label>
+    <select id="echelon">
+      <option value="">Choisir…</option>
+      <option value="1">Échelon 1</option>
+      <option value="2">Échelon 2</option>
+      <option value="3">Échelon 3</option>
+      <option value="4">Échelon 4</option>
+      <option value="5">Échelon 5</option>
+      <option value="6">Échelon 6</option>
+      <option value="7">Échelon 7</option>
+      <option value="8">Échelon 8</option>
+      <option value="9">Échelon 9</option>
+      <option value="10">Échelon 10</option>
+      <option value="11">Échelon 11</option>
+    </select>
+    <label>Ancienneté (en années) :</label>
+    <input type="number" id="anciennete" min="0" max="50" placeholder="Ex : 12">
+    <label class="rgpd"><input type="checkbox" id="consentement"> J’accepte que mes données soient utilisées uniquement dans le cadre de l’activité syndicale CFDT</label>
+    <button onclick="calculer()">Calculer mon barème</button>
+    <div id="result"></div>
+  </div>
+  <script>
+    function calculer() {
+      const echelon = parseInt(document.getElementById('echelon').value);
+      const anciennete = parseInt(document.getElementById('anciennete').value);
+      const consent = document.getElementById('consentement').checked;
+      if (!echelon || !anciennete || !consent) { alert("Merci de remplir tous les champs et d'accepter la RGPD"); return; }
+      let pointsEchelon = (echelon === 1) ? 5 : (echelon === 2) ? 15 : 15 + (echelon-2)*5;
+      let pointsAnciennete = anciennete; // ici 1 point par année, tu peux changer
+      const total = pointsEchelon + pointsAnciennete;
+      document.getElementById('result').innerHTML = `Votre barème total est : ${total} points<br>(Échelon : ${pointsEchelon}, Ancienneté : ${pointsAnciennete})`;
+    }
+  </script>
+</body>
+</html>
