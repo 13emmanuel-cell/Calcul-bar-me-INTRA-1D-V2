@@ -134,13 +134,12 @@ button{
 <h2>Ancienneté</h2>
 
 <label>
-Années d'ancienneté dans l'Éducation nationale (au 1er septembre 2025) :
+Années d'ancienneté dans l'Éducation nationale au 1er septembre 2025 (⚠️ l’année de stage ne doit pas être prise en compte – les actuels PES doivent indiquer 0) :
 <input type="number" id="anciennete" min="0" value="0">
 </label>
 
 <small>
-2 points forfaitaires + 2 points par année.<br>
-⚠️ L'année de stage ne doit pas être prise en compte. Les actuels PES doivent indiquer 0.
+2 points forfaitaires + 2 points par année d'ancienneté.
 </small>
 </div>
 
@@ -230,7 +229,6 @@ Pour adhérer, c'est par ici
 
 </div>
 
-
 <script>
 function calculer(){
 
@@ -255,7 +253,6 @@ total+=ptsEnf;
 detail+="Enfants : "+ptsEnf+"\n";
 
 if(carte=="oui"){ total+=250; detail+="Carte scolaire : 250\n"; }
-
 if(rqth=="oui"){ total+=50; detail+="RQTH : 50\n"; }
 
 if(majrqth=="oui"){
