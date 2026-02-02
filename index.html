@@ -1,210 +1,284 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Calculateur de barème CFDT</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<title>Calculateur barème INTRA – CFDT Académie de Bordeaux</title>
 
 <style>
-  body {
-    font-family: Arial;
-    background:#f5f5f5;
-    margin:0;
-    padding:0;
-  }
+:root{
+  --cfdt-orange:#f36f21;
+  --cfdt-dark:#333;
+  --cfdt-light:#f7f7f7;
+}
 
-  .container {
-    max-width:720px;
-    margin:40px auto;
-    padding:30px;
-    background:white;
-    border-radius:12px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.1);
-  }
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  margin:0;
+  background:var(--cfdt-light);
+  color:var(--cfdt-dark);
+}
 
-  h1 {
-    color:#ff6600;
-    text-align:center;
-    margin-bottom:5px;
-  }
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
 
-  p.subtitle {
-    font-size:14px;
-    color:#555;
-    text-align:center;
-    margin-top:0;
-    margin-bottom:20px;
-    line-height:1.5;
-  }
+header{
+  text-align:center;
+  margin-bottom:30px;
+}
 
-  .logo { text-align:center; margin-bottom:20px; }
+header img{
+  max-width:220px;
+  margin-bottom:10px;
+}
 
-  h2.section-title {
-    background:#ff6600;
-    color:white;
-    padding:8px 12px;
-    border-radius:6px;
-    margin-top:25px;
-  }
+h1{
+  color:var(--cfdt-orange);
+  margin-bottom:10px;
+}
 
-  label {
-    display:block;
-    margin-top:12px;
-    font-weight:bold;
-  }
+.section{
+  background:white;
+  border-left:6px solid var(--cfdt-orange);
+  padding:18px;
+  margin-bottom:18px;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
 
-  .help-text{
-    font-size:13px;
-    color:#555;
-    margin-top:6px;
-    line-height:1.4;
-  }
+.section h2{
+  margin-top:0;
+  color:var(--cfdt-orange);
+}
 
-  select,input[type=number] {
-    width:100%;
-    padding:10px;
-    margin-top:5px;
-    border-radius:6px;
-    font-size:14px;
-    border:1px solid #ccc;
-  }
+label{
+  display:block;
+  margin:10px 0;
+}
 
-  .radio-group label {
-    font-weight: normal;
-    margin-right:15px;
-  }
+input, select{
+  padding:6px;
+  margin-left:6px;
+}
 
-  button {
-    width:100%;
-    padding:12px;
-    margin-top:20px;
-    border-radius:6px;
-    font-size:16px;
-    background:#ff6600;
-    color:white;
-    border:none;
-    cursor:pointer;
-  }
+button{
+  background:var(--cfdt-orange);
+  color:white;
+  border:none;
+  padding:12px 22px;
+  font-size:18px;
+  border-radius:8px;
+  cursor:pointer;
+}
 
-  button:hover { background:#e25500; }
+.result{
+  background:var(--cfdt-orange);
+  color:white;
+  padding:25px;
+  border-radius:12px;
+  font-size:20px;
+  margin-top:25px;
+  white-space:pre-line;
+}
 
-  .rgpd {
-    font-size:12px;
-    margin-top:20px;
-    color:#555;
-  }
+.cta{
+  text-align:center;
+  margin-top:35px;
+}
 
-  #result {
-    margin-top:20px;
-    font-weight:bold;
-    font-size:16px;
-    background:#ff6600;
-    color:white;
-    padding:15px;
-    border-radius:8px;
-  }
-
-  .detail {
-    font-weight: normal;
-    margin-top:10px;
-    font-size:14px;
-  }
-
-  .section {
-    padding:15px;
-    background:#ffe5cc;
-    border-radius:8px;
-    margin-top:15px;
-  }
-
-  a { text-decoration:none; }
-
-  .btn-link {
-    display:inline-block;
-    background:#ff6600;
-    color:white;
-    font-size:20px;
-    padding:14px 26px;
-    border-radius:8px;
-    font-weight:bold;
-    margin-top:12px;
-  }
-
-  .btn-link:hover { background:#e25500; }
-
-  .img-intra {
-    display:block;
-    margin:15px auto 0;
-    max-width:200px;
-    border-radius:8px;
-  }
+.big-link{
+  display:inline-block;
+  background:var(--cfdt-orange);
+  color:white;
+  padding:18px 32px;
+  font-size:24px;
+  font-weight:bold;
+  text-decoration:none;
+  border-radius:12px;
+  margin-top:10px;
+}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-  <div class="logo">
-    <img src="https://sgen-cfdt.fr/contenu/uploads/sites/14/2026/02/LOGO-CAR-OR.png" width="180">
-  </div>
-
-  <h1>Calculateur de barème CFDT</h1>
-
-  <p class="subtitle">
-    Calcule ton barème pour le mouvement INTRA dans le premier degré pour l'académie de Bordeaux.<br><br>
-    La Team CFDT Aquitaine t'accompagne pour une stratégie pertinente et des vœux cohérents.
+<header>
+  <img src="https://sgen-cfdt.fr/contenu/uploads/sites/14/2026/02/LOGO-CAR-OR.png">
+  <h1>Calculateur de barème INTRA – Premier degré</h1>
+  <p>
+  <strong>Calcule ton barème pour le mouvement INTRA dans le premier degré pour l'académie de Bordeaux.</strong><br><br>
+  La Team CFDT Aquitaine t'accompagne pour une stratégie pertinente et des vœux cohérents.
   </p>
+</header>
 
-  <!-- Ancienneté -->
-  <h2 class="section-title">Ancienneté</h2>
-  <div class="section">
 
-    <label>Ancienneté dans l’Éducation nationale (en années - PES : mettre 0) :</label>
+<!-- Département -->
+<div class="section">
+<h2>Département</h2>
+<select id="dept">
+<option value="">-- choisir --</option>
+<option>Dordogne</option>
+<option>Gironde</option>
+<option>Landes</option>
+<option>Lot-et-Garonne</option>
+<option>Pyrénées-Atlantiques</option>
+</select>
+</div>
 
-    <div class="help-text">
-      Calcul au <strong>1er septembre 2025</strong>.<br>
-      ⚠️ <strong>L’année de stage ne doit pas être prise en compte.</strong><br>
-      👉 <strong>PES actuels : indiquez 0.</strong>
-    </div>
 
-    <input type="number" id="anciennete" min="0" max="50" placeholder="Ex : 12">
+<!-- Ancienneté -->
+<div class="section">
+<h2>Ancienneté</h2>
 
-  </div>
+<label>
+Années d'ancienneté dans l'Éducation nationale au 1er septembre 2025 (⚠️ l’année de stage ne doit pas être prise en compte – les actuels PES doivent indiquer 0) :
+<input type="number" id="anciennete" min="0" value="0">
+</label>
 
-  <button onclick="calculer()">Calculer mon barème</button>
+<small>
+2 points forfaitaires + 2 points par année d'ancienneté.
+</small>
+</div>
 
-  <div id="result"></div>
 
-  <!-- Dossier INTRA -->
-  <div class="section" style="text-align:center;">
-    <h2>Le dossier INTRA</h2>
+<!-- Enfants -->
+<div class="section">
+<h2>Enfants</h2>
 
-    <a href="https://aquitaine.sgen-cfdt.fr/dossier/le-mouvement-choisir-son-poste-a-la-rentree/" target="_blank" class="btn-link">
-      Cliquez ici
-    </a>
+<label>
+Nombre d'enfants :
+<input type="number" id="enfants" min="0" value="0">
+</label>
 
-    <img src="https://sgen-cfdt.fr/contenu/uploads/sites/14/2024/03/AQ-intra1-300x300.png" class="img-intra">
+<small>
+1 point par enfant (max 4).<br>
+Enfants de moins de 18 ans au 1er septembre 2026.<br>
+Aucune limite d’âge pour les enfants en situation de handicap.
+</small>
+</div>
 
-    <p style="margin-top:12px;">
-      Pour toute question, contactez-nous au : <strong>06 73 31 45 51</strong>
-    </p>
 
-    <p>Vous souhaitez adhérer ?</p>
+<!-- Bonifications -->
+<div class="section">
+<h2>Bonifications</h2>
 
-    <a href="https://aquitaine.sgen-cfdt.fr/actu/adherer-sgen-cfdt-aquitaine/" target="_blank" class="btn-link">
-      Pour adhérer, c'est par ici
-    </a>
-  </div>
+<label>Mesure de carte scolaire ?
+<select id="carte">
+<option value="non">Non</option>
+<option value="oui">Oui</option>
+</select></label>
+
+<label>Mesure RQTH ?
+<select id="rqth">
+<option value="non">Non</option>
+<option value="oui">Oui</option>
+</select></label>
+
+<label>Majoration RQTH ?
+<select id="majrqth">
+<option value="non">Non</option>
+<option value="oui">Oui</option>
+</select></label>
+
+<label>Parent isolé ?
+<select id="parent">
+<option value="non">Non</option>
+<option value="oui">Oui</option>
+</select></label>
+</div>
+
+
+<!-- REP -->
+<div class="section">
+<h2>Années en REP / zone rurale isolée / politique de la ville</h2>
+
+<label>
+Nombre d'années :
+<input type="number" id="rep" min="0" value="0">
+</label>
+</div>
+
+
+<button onclick="calculer()">Calculer mon barème</button>
+
+<div id="resultat" class="result"></div>
+
+
+<!-- Dossier Intra -->
+<div class="cta">
+<h2>Le dossier INTRA</h2>
+<a class="big-link" href="https://aquitaine.sgen-cfdt.fr/dossier/le-mouvement-choisir-son-poste-a-la-rentree/" target="_blank">
+Cliquez ici
+</a>
+<br><br>
+<img src="https://sgen-cfdt.fr/contenu/uploads/sites/14/2024/03/AQ-intra1-300x300.png" width="160">
+</div>
+
+
+<!-- Adhésion -->
+<div class="cta">
+<p><strong>Vous souhaitez adhérer ?</strong></p>
+<a class="big-link" href="https://aquitaine.sgen-cfdt.fr/actu/adherer-sgen-cfdt-aquitaine/" target="_blank">
+Pour adhérer, c'est par ici
+</a>
+<p>Des questions ? 06 73 31 45 51</p>
+</div>
 
 </div>
 
 <script>
-function calculer() {
-  const anciennete = parseInt(document.getElementById('anciennete').value) || 0;
-  let points = 2 + (anciennete * 2);
+function calculer(){
 
-  document.getElementById('result').innerHTML =
-    "Total ancienneté : " + points + " pts";
+let anciennete = parseInt(document.getElementById("anciennete").value)||0;
+let enfants = parseInt(document.getElementById("enfants").value)||0;
+let carte = document.getElementById("carte").value;
+let rqth = document.getElementById("rqth").value;
+let majrqth = document.getElementById("majrqth").value;
+let parent = document.getElementById("parent").value;
+let rep = parseInt(document.getElementById("rep").value)||0;
+let dept = document.getElementById("dept").value;
+
+let total=0;
+let detail="Détail du calcul :\n";
+
+let ptsAnc = 2 + anciennete*2;
+total+=ptsAnc;
+detail+="Ancienneté : "+ptsAnc+"\n";
+
+let ptsEnf = Math.min(enfants,4);
+total+=ptsEnf;
+detail+="Enfants : "+ptsEnf+"\n";
+
+if(carte=="oui"){ total+=250; detail+="Carte scolaire : 250\n"; }
+if(rqth=="oui"){ total+=50; detail+="RQTH : 50\n"; }
+
+if(majrqth=="oui"){
+  total+=250;
+  if(rqth=="oui") total-=50;
+  detail+="Majoration RQTH : 250\n";
+}
+
+if(parent=="oui"){ total+=4; detail+="Parent isolé : 4\n"; }
+
+let repPts=0;
+if(rep>=5){
+  if(dept=="Gironde") repPts=60;
+  else if(dept=="Landes"||dept=="Pyrénées-Atlantiques") repPts=50;
+}
+else if(rep>=3){
+  if(dept=="Gironde") repPts=30;
+  else if(dept=="Landes"||dept=="Pyrénées-Atlantiques") repPts=20;
+}
+
+total+=repPts;
+detail+="REP/zone : "+repPts+"\n";
+
+detail+="\nTOTAL : "+total+" points";
+
+document.getElementById("resultat").innerText=detail;
 }
 </script>
 
