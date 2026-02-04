@@ -4,41 +4,167 @@
 <meta charset="UTF-8">
 <title>Calculateur de barème CFDT</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-  body { font-family: Arial; background:#f5f5f5; margin:0; padding:0; }
-  .container { max-width:720px; margin:40px auto; padding:30px; background:white; border-radius:12px; box-shadow:0 5px 20px rgba(0,0,0,0.1); }
-  h1 { color:#ff6600; text-align:center; margin-bottom:5px; }
-  p.subtitle { font-size:14px; color:#555; text-align:center; margin-top:0; margin-bottom:20px; line-height:1.5; }
-  .logo { text-align:center; margin-bottom:20px; }
-  h2.section-title { background:#ff6600; color:white; padding:8px 12px; border-radius:6px; margin-top:25px; }
-  label { display:block; margin-top:12px; font-weight:bold; }
-  select,input[type=number] { width:100%; padding:10px; margin-top:5px; border-radius:6px; font-size:14px; border:1px solid #ccc; }
-  .radio-group label { font-weight: normal; margin-right:15px; }
-  button { width:100%; padding:12px; margin-top:20px; border-radius:6px; font-size:16px; background:#ff6600; color:white; border:none; cursor:pointer; }
-  button:hover { background:#e25500; }
-  .rgpd { font-size:12px; margin-top:20px; color:#555; }
-  #result { margin-top:20px; font-weight:bold; font-size:16px; background:#ff6600; color:white; padding:15px; border-radius:8px; }
-  .detail { font-weight: normal; color: #fff; margin-top:10px; font-size:14px; }
-  .section { padding:15px; background:#ffe5cc; border-radius:8px; margin-top:15px; }
-  a { text-decoration:none; }
-  .btn-link { display:inline-block; background:#ff6600; color:white; font-size:18px; padding:12px 20px; border-radius:8px; font-weight:bold; text-decoration:none; margin-top:10px; }
-  .btn-link:hover { background:#e25500; }
-  .img-intra { display:block; margin:15px auto 0; max-width:200px; border-radius:8px; }
+body {
+  font-family: Arial;
+  background:#f5f5f5;
+  margin:0;
+  padding:0;
+}
+
+.container {
+  max-width:720px;
+  margin:40px auto;
+  padding:30px;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+h1 {
+  color:#ff6600;
+  text-align:center;
+  margin-bottom:5px;
+}
+
+.subtitle {
+  font-size:14px;
+  color:#555;
+  text-align:center;
+  margin-bottom:20px;
+  line-height:1.5;
+}
+
+.logo {
+  text-align:center;
+  margin-bottom:20px;
+}
+
+h2.section-title {
+  background:#ff6600;
+  color:white;
+  padding:8px 12px;
+  border-radius:6px;
+  margin-top:25px;
+}
+
+.section {
+  padding:15px;
+  background:#ffe5cc;
+  border-radius:8px;
+  margin-top:15px;
+}
+
+label {
+  display:block;
+  margin-top:12px;
+  font-weight:bold;
+}
+
+select,
+input[type=number] {
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border-radius:6px;
+  font-size:14px;
+  border:1px solid #ccc;
+}
+
+button {
+  width:100%;
+  padding:12px;
+  margin-top:20px;
+  border-radius:6px;
+  font-size:16px;
+  background:#ff6600;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+
+button:hover {
+  background:#e25500;
+}
+
+#result {
+  margin-top:20px;
+  font-weight:bold;
+  font-size:16px;
+  background:#ff6600;
+  color:white;
+  padding:15px;
+  border-radius:8px;
+}
+
+a { text-decoration:none; }
+
+/* boutons liens */
+.btn-link,
+.btn-formulaire,
+.btn-adhesion {
+  display:inline-block;
+  background:#ff6600;
+  color:white;
+  padding:10px 20px;
+  border-radius:8px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.btn-link:hover,
+.btn-formulaire:hover,
+.btn-adhesion:hover {
+  background:#e25500;
+}
+
+.img-intra {
+  display:block;
+  margin:15px auto 0;
+  max-width:200px;
+  border-radius:8px;
+}
+
+/* ajouts */
+.formulaire-cta {
+  text-align:center;
+  margin:10px 0 25px;
+  font-size:14px;
+}
+
+.contact-adhesion {
+  text-align:center;
+  margin-top:30px;
+}
 </style>
 </head>
+
+
 <body>
 <div class="container">
 
-  <!-- Logo -->
-  <div class="logo">
-    <img src="https://sgen-cfdt.fr/contenu/uploads/sites/14/2026/02/LOGO-CAR-OR.png" width="180" alt="Logo CFDT Académie de Bordeaux">
-  </div>
+<!-- Logo -->
+<div class="logo">
+  <img src="https://sgen-cfdt.fr/contenu/uploads/sites/14/2026/02/LOGO-CAR-OR.png" width="180" alt="Logo CFDT">
+</div>
 
-  <h1>Calculateur de barème CFDT</h1>
-  <p class="subtitle">
-    Calcule ton barème pour le mouvement INTRA dans le premier degré pour l'académie de Bordeaux.<br><br>
-    La Team CFDT Aquitaine t'accompagne pour une stratégie pertinente et des vœux cohérents.
-  </p>
+<h1>Calculateur de barème CFDT</h1>
+
+<p class="subtitle">
+  Calcule ton barème pour le mouvement INTRA dans le premier degré pour l'académie de Bordeaux.<br><br>
+  La Team CFDT Aquitaine t'accompagne pour une stratégie pertinente et des vœux cohérents.
+</p>
+
+<!-- ===== AJOUT FORMULAIRE ===== -->
+<div class="formulaire-cta">
+  Pour nos adhérent-es, pensez à compléter le formulaire
+  <a href="https://aquitaine.sgen-cfdt.fr/sgenforms-form/reussir-le-mouvement-2/" target="_blank" class="btn-formulaire">ICI</a>
+  pour nous permettre de vous conseiller efficacement.
+</div>
+
+
+<!-- ===================== 1 ===================== -->
 
   <!-- Rubrique : Département & Grade -->
   <h2 class="section-title">1. Département & Grade</h2>
